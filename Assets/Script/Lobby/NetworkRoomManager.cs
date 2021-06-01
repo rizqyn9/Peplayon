@@ -2,19 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Linq;
+
 
 namespace NetworkPeplayon
 {
-    // This script used for manage players in ROOM
-    // Player Join, Player out, Player do even
-
-    [AddComponentMenu("Network/NetworkRoomManager")]
     public class PeplayonNetworkRoomManager : NetworkManager
     {
         [Header("Room Settings")]
         public int minPlayers = 10;
         public int maxPlayers = 40;
 
+
+        public List<NetworkRoomManager> ListConn { get; } = new List<NetworkRoomManager>();
+        public List<NetworkConnection> ListConnTes = new List<NetworkConnection>();
+
+        public override void OnValidate()
+        {
+            Debug.Log("OnValidate");
+            base.OnValidate();
+        }
 
         public override void OnClientConnect(NetworkConnection conn)
         {
@@ -25,9 +32,10 @@ namespace NetworkPeplayon
             Debug.Log("OnClientConnect");
         }
 
+
         public void Test ()
         {
-            foreach(NetworkConnection conn in RoomManager.connList)
+            foreach(NetworkConnection conn in NetworkRoomManager.connList)
             {
                 Debug.Log($"CONNECTION {conn.connectionId}");
             }
@@ -41,7 +49,7 @@ namespace NetworkPeplayon
 
         public override void OnServerConnect(NetworkConnection conn)
         {
-            Debug.Log($"Server {conn.connectionId}");
+
             Debug.Log("New Client Connect to Server");
             base.OnServerConnect(conn);
         }
@@ -56,10 +64,6 @@ namespace NetworkPeplayon
         {
             Debug.Log($"OnServerAddPlayer");
             base.OnServerAddPlayer(conn);
-            RoomManager addPlayer = new RoomManager();
-            Player testPlayer = new Player();
-            testPlayer.Name = $"Player {numPlayers}";
-            addPlayer.AddList(conn, testPlayer);
         }
 
         public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
@@ -88,12 +92,15 @@ namespace NetworkPeplayon
 
         public override void OnStartClient()
         {
+            NetworkIdentity id = playerPrefab.GetComponent<NetworkIdentity>();
+            Debug.Log(id.assetId.ToString());
             Debug.Log($"OnStartClient");
             base.OnStartClient();
         }
 
         public override void OnStartHost()
         {
+
             Debug.Log($"OnStartHost");
             base.OnStartHost();
         }

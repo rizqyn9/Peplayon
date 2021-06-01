@@ -34,10 +34,10 @@ namespace Matchmaker
 
         private void Update()
         {
-            if (isLoading)
-            {
-                Debug.Log("Loading");
-            }
+            //if (isLoading)
+            //{
+            //    Debug.Log("Loading");
+            //}
         }
 
         public void JoinLocal()
