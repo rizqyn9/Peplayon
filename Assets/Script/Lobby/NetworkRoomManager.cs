@@ -10,15 +10,26 @@ namespace NetworkPeplayon
     public class PeplayonNetworkRoomManager : NetworkManager
     {
         [Header("Room Settings")]
-        public int minPlayers = 10;
+        //public int minPlayers = 10;
         public int maxPlayers = 40;
 
-
+        public GameObject PrefabBillboardUI = null;
         public NetworkRoomManager netRoomManager;
+        public int playerIndex = 5;
 
-        public List<NetworkRoomManager> ListConn { get; } = new List<NetworkRoomManager>();
-        public List<NetworkConnection> ListConnTes = new List<NetworkConnection>();
-        public Dictionary<string, NetworkIdentity> NetID { get; } = new Dictionary<string, NetworkIdentity>();
+        public Dictionary<string, NetworkConnection> netConn = new Dictionary<string, NetworkConnection>();
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                Debug.Log($"Count Join {netConn.Count.ToString()}");
+                foreach(string conn in netConn.Keys)
+                {
+                    Debug.Log($"PLAYER CON {conn}");
+                }
+            }
+        }
 
         public override void OnValidate()
         {
@@ -29,7 +40,7 @@ namespace NetworkPeplayon
         public override void OnClientConnect(NetworkConnection conn)
         {
             base.OnClientConnect(conn);
-            Debug.Log("OnClientConnect");
+            Debug.Log($"OnClientConnect {conn.connectionId}");
         }
 
         public override void OnClientDisconnect(NetworkConnection conn)
@@ -40,8 +51,7 @@ namespace NetworkPeplayon
 
         public override void OnServerConnect(NetworkConnection conn)
         {
-
-            Debug.Log("New Client Connect to Server");
+            Debug.Log($"New Client Connect to Server conn {conn.connectionId}");
             base.OnServerConnect(conn);
         }
 
@@ -53,8 +63,12 @@ namespace NetworkPeplayon
 
         public override void OnServerAddPlayer(NetworkConnection conn)
         {
-            Debug.Log($"OnServerAddPlayer");
+            Debug.Log($"OnServerAddPlayer Player Index {playerIndex+=1} conn ID {conn.connectionId.ToString()}");
             base.OnServerAddPlayer(conn);
+            netConn.Add(conn.connectionId.ToString(), conn);
+            //NetworkIdentity netID = conn.identity.GetComponent<NetworkIdentity>();
+            //netRoomManager.AddNetID(netID);
+
         }
 
         public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
@@ -123,6 +137,7 @@ namespace NetworkPeplayon
             Debug.Log($"OnStopHost");
             base.OnStopHost();
         }
+
         public override void OnStopServer()
         {
             Debug.Log($"OnStopServer");

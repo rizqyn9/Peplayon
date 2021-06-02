@@ -288,8 +288,18 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
+  showRoomGUI: 0
   minPlayers: 10
+  roomPlayerPrefab: {fileID: 0}
+  RoomScene: 
+  GameplayScene: 
+  _allPlayersReady: 0
+  roomSlots: []
+  clientIndex: 0
   maxPlayers: 40
+  PrefabBillboardUI: {fileID: 0}
+  netRoomManager: {fileID: 0}
+  playerIndex: 0
 --- !u!4 &446431256
 Transform:
   m_ObjectHideFlags: 0
