@@ -14,8 +14,11 @@ namespace NetworkPeplayon
         public int maxPlayers = 40;
 
 
+        public NetworkRoomManager netRoomManager;
+
         public List<NetworkRoomManager> ListConn { get; } = new List<NetworkRoomManager>();
         public List<NetworkConnection> ListConnTes = new List<NetworkConnection>();
+        public Dictionary<string, NetworkIdentity> NetID { get; } = new Dictionary<string, NetworkIdentity>();
 
         public override void OnValidate()
         {
@@ -25,20 +28,8 @@ namespace NetworkPeplayon
 
         public override void OnClientConnect(NetworkConnection conn)
         {
-            //Debug.Log($"On Client Connect{conn.connectionId}");
-            //Debug.Log($"On Client Connect{conn.isAuthenticated}");
-            //Debug.Log($"On Client Connect{conn.lastMessageTime}");
             base.OnClientConnect(conn);
             Debug.Log("OnClientConnect");
-        }
-
-
-        public void Test ()
-        {
-            foreach(NetworkConnection conn in NetworkRoomManager.connList)
-            {
-                Debug.Log($"CONNECTION {conn.connectionId}");
-            }
         }
 
         public override void OnClientDisconnect(NetworkConnection conn)
@@ -92,10 +83,8 @@ namespace NetworkPeplayon
 
         public override void OnStartClient()
         {
-            NetworkIdentity id = playerPrefab.GetComponent<NetworkIdentity>();
-            Debug.Log(id.assetId.ToString());
-            Debug.Log($"OnStartClient");
             base.OnStartClient();
+            Debug.Log($"OnStartClient");
         }
 
         public override void OnStartHost()
