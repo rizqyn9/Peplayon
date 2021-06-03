@@ -18,6 +18,7 @@ namespace NetworkPeplayon
         public int playerIndex = 5;
 
         public Dictionary<string, NetworkConnection> netConn = new Dictionary<string, NetworkConnection>();
+        public List<NetworkRoomManager> RoomPlayers = new List<NetworkRoomManager>();
 
         private void Update()
         {
@@ -51,7 +52,7 @@ namespace NetworkPeplayon
 
         public override void OnServerConnect(NetworkConnection conn)
         {
-            Debug.Log($"New Client Connect to Server conn {conn.connectionId}");
+            Debug.Log($"New Client Connect to Server conn {conn.connectionId} Total Players Connect = {numPlayers + 1}");
             base.OnServerConnect(conn);
         }
 
@@ -64,8 +65,10 @@ namespace NetworkPeplayon
         public override void OnServerAddPlayer(NetworkConnection conn)
         {
             Debug.Log($"OnServerAddPlayer Player Index {playerIndex+=1} conn ID {conn.connectionId.ToString()}");
-            base.OnServerAddPlayer(conn);
+            //base.OnServerAddPlayer(conn);
             netConn.Add(conn.connectionId.ToString(), conn);
+            GameObject playerPrefabs = Instantiate(playerPrefab);
+            NetworkServer.AddPlayerForConnection(conn, playerPrefabs);
             //NetworkIdentity netID = conn.identity.GetComponent<NetworkIdentity>();
             //netRoomManager.AddNetID(netID);
 

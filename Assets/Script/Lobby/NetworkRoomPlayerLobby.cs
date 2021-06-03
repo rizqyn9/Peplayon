@@ -16,6 +16,7 @@ namespace NetworkPeplayon
 
         [SerializeField] public GameObject PlayerUIPrefab;
         [SerializeField] public Player playerDetails = new Player();
+        [SerializeField] public PlayerDataSaved playerDataSaved = new PlayerDataSaved();
 
         public void Awake()
         {

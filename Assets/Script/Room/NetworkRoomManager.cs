@@ -69,6 +69,9 @@ namespace NetworkPeplayon
 
         public override void OnStartClient()
         {
+            Player player = GetComponent<Player>();
+            UI_Lobby.instance.SpawnPlayerUIBillboard(player);
+            networkRoom.RoomPlayers.Add(this);
             DontDestroyOnLoad(gameObject);
         }
 

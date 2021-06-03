@@ -2,6 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class PlayerDataSaved
+{
+    private string _id = "1";
+    public string ID {
+        get => _id;
+        set
+        {
+            _id = value;
+        }
+    }
+    private string _name = "Rizqy";
+    public string Name {
+        get => _name;
+        set
+        {
+            _name = value;
+        }
+    }
+    private int _level = 10;
+    public int Level {
+        get => _level;
+        set
+        {
+            _level = value;
+        }
+    }
+}
+
 public class LocalPlayerData
 {
     public string ID;
@@ -37,3 +66,4 @@ public class POST
         return JsonUtility.ToJson(this);
     }
 }
+
